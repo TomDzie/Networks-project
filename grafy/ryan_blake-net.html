@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "Ryan Reynolds", "label": "Ryan Reynolds", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "James Chester Reynolds", "label": "James Chester Reynolds", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Tammy Reynolds", "label": "Tammy Reynolds", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Blake Lively", "label": "Blake Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Scarlett Johansson", "label": "Scarlett Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Jeff Reynolds", "label": "Jeff Reynolds", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Terry Reynolds", "label": "Terry Reynolds", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Patrick Reynolds", "label": "Patrick Reynolds", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ernie Lively", "label": "Ernie Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Elaine Lively", "label": "Elaine Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Robyn Lively", "label": "Robyn Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Eric Lively", "label": "Eric Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Jason Lively", "label": "Jason Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Lori Lively", "label": "Lori Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Melanie Sloan", "label": "Melanie Sloan", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Karsten Johansson", "label": "Karsten Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Colin Jost", "label": "Colin Jost", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Romain Dauriac", "label": "Romain Dauriac", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Vanessa Johansson", "label": "Vanessa Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Hunter Johansson", "label": "Hunter Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Christian Johansson", "label": "Christian Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Fenan Sloan", "label": "Fenan Sloan", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Adrian Johansson", "label": "Adrian Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Beatrice Gray Walton", "label": "Beatrice Gray Walton", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ernest Wilson Brown", "label": "Ernest Wilson Brown", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ronnie Lively", "label": "Ronnie Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Bart Johnson", "label": "Bart Johnson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Baylen Johnson", "label": "Baylen Johnson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Kate Johnson", "label": "Kate Johnson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Angelina Davydova", "label": "Angelina Davydova", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Lani Lively", "label": "Lani Lively", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Dorothy Sloan", "label": "Dorothy Sloan", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ejner Johansson", "label": "Ejner Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Daniel A. Jost", "label": "Daniel A. Jost", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Kerry Kelly", "label": "Kerry Kelly", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Casey Jost", "label": "Casey Jost", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Jean-Francis Dauriac", "label": "Jean-Francis Dauriac", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Charlene Johnson", "label": "Charlene Johnson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Brad Johnson", "label": "Brad Johnson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Adam Johnson", "label": "Adam Johnson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Isadore Chodosh", "label": "Isadore Chodosh", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Hanna Chadash", "label": "Hanna Chadash", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Axel Robert Johansson", "label": "Axel Robert Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Margrethe Hansine Johansson", "label": "Margrethe Hansine Johansson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Lisa Kleinman", "label": "Lisa Kleinman", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"from": "Ryan Reynolds", "to": "James Chester Reynolds", "width": 1}, {"from": "Ryan Reynolds", "to": "Tammy Reynolds", "width": 1}, {"from": "Ryan Reynolds", "to": "Blake Lively", "width": 1}, {"from": "Ryan Reynolds", "to": "Scarlett Johansson", "width": 1}, {"from": "Ryan Reynolds", "to": "Jeff Reynolds", "width": 1}, {"from": "Ryan Reynolds", "to": "Terry Reynolds", "width": 1}, {"from": "Ryan Reynolds", "to": "Patrick Reynolds", "width": 1}, {"from": "James Chester Reynolds", "to": "Tammy Reynolds", "width": 1}, {"from": "James Chester Reynolds", "to": "Jeff Reynolds", "width": 1}, {"from": "James Chester Reynolds", "to": "Patrick Reynolds", "width": 1}, {"from": "James Chester Reynolds", "to": "Terry Reynolds", "width": 1}, {"from": "Tammy Reynolds", "to": "Jeff Reynolds", "width": 1}, {"from": "Tammy Reynolds", "to": "Terry Reynolds", "width": 1}, {"from": "Tammy Reynolds", "to": "Patrick Reynolds", "width": 1}, {"from": "Blake Lively", "to": "Ernie Lively", "width": 1}, {"from": "Blake Lively", "to": "Elaine Lively", "width": 1}, {"from": "Blake Lively", "to": "Robyn Lively", "width": 1}, {"from": "Blake Lively", "to": "Eric Lively", "width": 1}, {"from": "Blake Lively", "to": "Jason Lively", "width": 1}, {"from": "Blake Lively", "to": "Lori Lively", "width": 1}, {"from": "Scarlett Johansson", "to": "Melanie Sloan", "width": 1}, {"from": "Scarlett Johansson", "to": "Karsten Johansson", "width": 1}, {"from": "Scarlett Johansson", "to": "Colin Jost", "width": 1}, {"from": "Scarlett Johansson", "to": "Romain Dauriac", "width": 1}, {"from": "Scarlett Johansson", "to": "Vanessa Johansson", "width": 1}, {"from": "Scarlett Johansson", "to": "Hunter Johansson", "width": 1}, {"from": "Scarlett Johansson", "to": "Christian Johansson", "width": 1}, {"from": "Scarlett Johansson", "to": "Fenan Sloan", "width": 1}, {"from": "Scarlett Johansson", "to": "Adrian Johansson", "width": 1}, {"from": "Jeff Reynolds", "to": "Terry Reynolds", "width": 1}, {"from": "Jeff Reynolds", "to": "Patrick Reynolds", "width": 1}, {"from": "Terry Reynolds", "to": "Patrick Reynolds", "width": 1}, {"from": "Ernie Lively", "to": "Beatrice Gray Walton", "width": 1}, {"from": "Ernie Lively", "to": "Ernest Wilson Brown", "width": 1}, {"from": "Ernie Lively", "to": "Elaine Lively", "width": 1}, {"from": "Ernie Lively", "to": "Jason Lively", "width": 1}, {"from": "Ernie Lively", "to": "Robyn Lively", "width": 1}, {"from": "Ernie Lively", "to": "Eric Lively", "width": 1}, {"from": "Ernie Lively", "to": "Lori Lively", "width": 1}, {"from": "Elaine Lively", "to": "Robyn Lively", "width": 1}, {"from": "Elaine Lively", "to": "Lori Lively", "width": 1}, {"from": "Elaine Lively", "to": "Jason Lively", "width": 1}, {"from": "Elaine Lively", "to": "Eric Lively", "width": 1}, {"from": "Robyn Lively", "to": "Ronnie Lively", "width": 1}, {"from": "Robyn Lively", "to": "Bart Johnson", "width": 1}, {"from": "Robyn Lively", "to": "Lori Lively", "width": 1}, {"from": "Robyn Lively", "to": "Eric Lively", "width": 1}, {"from": "Robyn Lively", "to": "Jason Lively", "width": 1}, {"from": "Robyn Lively", "to": "Baylen Johnson", "width": 1}, {"from": "Robyn Lively", "to": "Kate Johnson", "width": 1}, {"from": "Eric Lively", "to": "Angelina Davydova", "width": 1}, {"from": "Eric Lively", "to": "Jason Lively", "width": 1}, {"from": "Eric Lively", "to": "Lori Lively", "width": 1}, {"from": "Jason Lively", "to": "Ronnie Lively", "width": 1}, {"from": "Jason Lively", "to": "Lani Lively", "width": 1}, {"from": "Jason Lively", "to": "Lori Lively", "width": 1}, {"from": "Lori Lively", "to": "Ronnie Lively", "width": 1}, {"from": "Melanie Sloan", "to": "Dorothy Sloan", "width": 1}, {"from": "Melanie Sloan", "to": "Karsten Johansson", "width": 1}, {"from": "Melanie Sloan", "to": "Vanessa Johansson", "width": 1}, {"from": "Melanie Sloan", "to": "Hunter Johansson", "width": 1}, {"from": "Melanie Sloan", "to": "Fenan Sloan", "width": 1}, {"from": "Melanie Sloan", "to": "Adrian Johansson", "width": 1}, {"from": "Karsten Johansson", "to": "Ejner Johansson", "width": 1}, {"from": "Karsten Johansson", "to": "Vanessa Johansson", "width": 1}, {"from": "Karsten Johansson", "to": "Hunter Johansson", "width": 1}, {"from": "Karsten Johansson", "to": "Adrian Johansson", "width": 1}, {"from": "Karsten Johansson", "to": "Christian Johansson", "width": 1}, {"from": "Colin Jost", "to": "Daniel A. Jost", "width": 1}, {"from": "Colin Jost", "to": "Kerry Kelly", "width": 1}, {"from": "Colin Jost", "to": "Casey Jost", "width": 1}, {"from": "Romain Dauriac", "to": "Jean-Francis Dauriac", "width": 1}, {"from": "Vanessa Johansson", "to": "Hunter Johansson", "width": 1}, {"from": "Vanessa Johansson", "to": "Christian Johansson", "width": 1}, {"from": "Vanessa Johansson", "to": "Adrian Johansson", "width": 1}, {"from": "Hunter Johansson", "to": "Christian Johansson", "width": 1}, {"from": "Hunter Johansson", "to": "Fenan Sloan", "width": 1}, {"from": "Hunter Johansson", "to": "Adrian Johansson", "width": 1}, {"from": "Christian Johansson", "to": "Adrian Johansson", "width": 1}, {"from": "Fenan Sloan", "to": "Adrian Johansson", "width": 1}, {"from": "Bart Johnson", "to": "Charlene Johnson", "width": 1}, {"from": "Bart Johnson", "to": "Brad Johnson", "width": 1}, {"from": "Bart Johnson", "to": "Adam Johnson", "width": 1}, {"from": "Bart Johnson", "to": "Baylen Johnson", "width": 1}, {"from": "Bart Johnson", "to": "Kate Johnson", "width": 1}, {"from": "Baylen Johnson", "to": "Kate Johnson", "width": 1}, {"from": "Dorothy Sloan", "to": "Isadore Chodosh", "width": 1}, {"from": "Dorothy Sloan", "to": "Hanna Chadash", "width": 1}, {"from": "Ejner Johansson", "to": "Axel Robert Johansson", "width": 1}, {"from": "Ejner Johansson", "to": "Margrethe Hansine Johansson", "width": 1}, {"from": "Daniel A. Jost", "to": "Casey Jost", "width": 1}, {"from": "Kerry Kelly", "to": "Casey Jost", "width": 1}, {"from": "Casey Jost", "to": "Lisa Kleinman", "width": 1}, {"from": "Charlene Johnson", "to": "Brad Johnson", "width": 1}, {"from": "Charlene Johnson", "to": "Adam Johnson", "width": 1}, {"from": "Brad Johnson", "to": "Adam Johnson", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "Miley Cyrus", "label": "Miley Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Billy Ray Cyrus", "label": "Billy Ray Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Tish Cyrus", "label": "Tish Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Liam Hemsworth", "label": "Liam Hemsworth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Noah Cyrus", "label": "Noah Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Trace Cyrus", "label": "Trace Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Christopher Cody", "label": "Christopher Cody", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Brandi Cyrus", "label": "Brandi Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Braison Cyrus", "label": "Braison Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ruth Ann Casto", "label": "Ruth Ann Casto", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ron Cyrus", "label": "Ron Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Angie Marie Cyrus", "label": "Angie Marie Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Kevin Cyrus", "label": "Kevin Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Cherie Cyrus", "label": "Cherie Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Loretta Jean Palmer Finley", "label": "Loretta Jean Palmer Finley", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Glenmore Finley", "label": "Glenmore Finley", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Dominic Purcell", "label": "Dominic Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Craig Hemsworth", "label": "Craig Hemsworth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Leonie Hemsworth", "label": "Leonie Hemsworth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Chris Hemsworth", "label": "Chris Hemsworth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Luke Hemsworth", "label": "Luke Hemsworth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Baxter Neal Helson", "label": "Baxter Neal Helson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Brandon Cyrus", "label": "Brandon Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Kristin Luckey", "label": "Kristin Luckey", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Stella McBride Cyrus", "label": "Stella McBride Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Eldon Lindsey Cyrus", "label": "Eldon Lindsey Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Verlina Adeline Cyrus", "label": "Verlina Adeline Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Ada Finley", "label": "Ada Finley", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Benjamin Harrison Finley", "label": "Benjamin Harrison Finley", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Phil Myrtvedt", "label": "Phil Myrtvedt", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Maureen Purcell", "label": "Maureen Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Rebecca Williamson", "label": "Rebecca Williamson", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Damian Purcell", "label": "Damian Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Marie-Therese Purcell", "label": "Marie-Therese Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Jaime Purcell", "label": "Jaime Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Patrick Purcell", "label": "Patrick Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Lily-Rose Purcell", "label": "Lily-Rose Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Audrey Purcell", "label": "Audrey Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Augustus Purcell", "label": "Augustus Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Joseph Purcell", "label": "Joseph Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Elsa Pataky", "label": "Elsa Pataky", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Samantha Hemsworth", "label": "Samantha Hemsworth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Joseph Cyrus", "label": "Joseph Cyrus", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Gerald Purcell", "label": "Gerald Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Caroline Purcell", "label": "Caroline Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Eilisha Purcell", "label": "Eilisha Purcell", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Claudia Purcell", "label": "Claudia Purcell", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"from": "Miley Cyrus", "to": "Billy Ray Cyrus", "width": 1}, {"from": "Miley Cyrus", "to": "Tish Cyrus", "width": 1}, {"from": "Miley Cyrus", "to": "Liam Hemsworth", "width": 1}, {"from": "Miley Cyrus", "to": "Noah Cyrus", "width": 1}, {"from": "Miley Cyrus", "to": "Trace Cyrus", "width": 1}, {"from": "Miley Cyrus", "to": "Christopher Cody", "width": 1}, {"from": "Miley Cyrus", "to": "Brandi Cyrus", "width": 1}, {"from": "Miley Cyrus", "to": "Braison Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Ruth Ann Casto", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Ron Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Angie Marie Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Kevin Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Cherie Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Noah Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Christopher Cody", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Trace Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Braison Cyrus", "width": 1}, {"from": "Billy Ray Cyrus", "to": "Tish Cyrus", "width": 1}, {"from": "Tish Cyrus", "to": "Loretta Jean Palmer Finley", "width": 1}, {"from": "Tish Cyrus", "to": "Glenmore Finley", "width": 1}, {"from": "Tish Cyrus", "to": "Dominic Purcell", "width": 1}, {"from": "Tish Cyrus", "to": "Noah Cyrus", "width": 1}, {"from": "Tish Cyrus", "to": "Brandi Cyrus", "width": 1}, {"from": "Tish Cyrus", "to": "Trace Cyrus", "width": 1}, {"from": "Tish Cyrus", "to": "Braison Cyrus", "width": 1}, {"from": "Liam Hemsworth", "to": "Craig Hemsworth", "width": 1}, {"from": "Liam Hemsworth", "to": "Leonie Hemsworth", "width": 1}, {"from": "Liam Hemsworth", "to": "Chris Hemsworth", "width": 1}, {"from": "Liam Hemsworth", "to": "Luke Hemsworth", "width": 1}, {"from": "Noah Cyrus", "to": "Brandi Cyrus", "width": 1}, {"from": "Noah Cyrus", "to": "Braison Cyrus", "width": 1}, {"from": "Noah Cyrus", "to": "Trace Cyrus", "width": 1}, {"from": "Noah Cyrus", "to": "Christopher Cody", "width": 1}, {"from": "Trace Cyrus", "to": "Baxter Neal Helson", "width": 1}, {"from": "Trace Cyrus", "to": "Brandi Cyrus", "width": 1}, {"from": "Trace Cyrus", "to": "Braison Cyrus", "width": 1}, {"from": "Trace Cyrus", "to": "Christopher Cody", "width": 1}, {"from": "Trace Cyrus", "to": "Brandon Cyrus", "width": 1}, {"from": "Christopher Cody", "to": "Kristin Luckey", "width": 1}, {"from": "Christopher Cody", "to": "Braison Cyrus", "width": 1}, {"from": "Christopher Cody", "to": "Brandi Cyrus", "width": 1}, {"from": "Brandi Cyrus", "to": "Baxter Neal Helson", "width": 1}, {"from": "Brandi Cyrus", "to": "Braison Cyrus", "width": 1}, {"from": "Braison Cyrus", "to": "Stella McBride Cyrus", "width": 1}, {"from": "Ruth Ann Casto", "to": "Ron Cyrus", "width": 1}, {"from": "Ron Cyrus", "to": "Eldon Lindsey Cyrus", "width": 1}, {"from": "Ron Cyrus", "to": "Verlina Adeline Cyrus", "width": 1}, {"from": "Ron Cyrus", "to": "Kevin Cyrus", "width": 1}, {"from": "Ron Cyrus", "to": "Angie Marie Cyrus", "width": 1}, {"from": "Ron Cyrus", "to": "Cherie Cyrus", "width": 1}, {"from": "Glenmore Finley", "to": "Ada Finley", "width": 1}, {"from": "Glenmore Finley", "to": "Benjamin Harrison Finley", "width": 1}, {"from": "Dominic Purcell", "to": "Phil Myrtvedt", "width": 1}, {"from": "Dominic Purcell", "to": "Maureen Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Rebecca Williamson", "width": 1}, {"from": "Dominic Purcell", "to": "Damian Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Marie-Therese Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Jaime Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Patrick Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Lily-Rose Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Audrey Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Augustus Purcell", "width": 1}, {"from": "Dominic Purcell", "to": "Joseph Purcell", "width": 1}, {"from": "Craig Hemsworth", "to": "Leonie Hemsworth", "width": 1}, {"from": "Craig Hemsworth", "to": "Luke Hemsworth", "width": 1}, {"from": "Craig Hemsworth", "to": "Chris Hemsworth", "width": 1}, {"from": "Leonie Hemsworth", "to": "Luke Hemsworth", "width": 1}, {"from": "Leonie Hemsworth", "to": "Chris Hemsworth", "width": 1}, {"from": "Chris Hemsworth", "to": "Elsa Pataky", "width": 1}, {"from": "Chris Hemsworth", "to": "Luke Hemsworth", "width": 1}, {"from": "Luke Hemsworth", "to": "Samantha Hemsworth", "width": 1}, {"from": "Eldon Lindsey Cyrus", "to": "Joseph Cyrus", "width": 1}, {"from": "Eldon Lindsey Cyrus", "to": "Verlina Adeline Cyrus", "width": 1}, {"from": "Maureen Purcell", "to": "Marie-Therese Purcell", "width": 1}, {"from": "Maureen Purcell", "to": "Jaime Purcell", "width": 1}, {"from": "Maureen Purcell", "to": "Damian Purcell", "width": 1}, {"from": "Maureen Purcell", "to": "Patrick Purcell", "width": 1}, {"from": "Rebecca Williamson", "to": "Lily-Rose Purcell", "width": 1}, {"from": "Rebecca Williamson", "to": "Audrey Purcell", "width": 1}, {"from": "Rebecca Williamson", "to": "Joseph Purcell", "width": 1}, {"from": "Rebecca Williamson", "to": "Augustus Purcell", "width": 1}, {"from": "Damian Purcell", "to": "Gerald Purcell", "width": 1}, {"from": "Damian Purcell", "to": "Caroline Purcell", "width": 1}, {"from": "Damian Purcell", "to": "Patrick Purcell", "width": 1}, {"from": "Damian Purcell", "to": "Marie-Therese Purcell", "width": 1}, {"from": "Damian Purcell", "to": "Jaime Purcell", "width": 1}, {"from": "Marie-Therese Purcell", "to": "Patrick Purcell", "width": 1}, {"from": "Marie-Therese Purcell", "to": "Jaime Purcell", "width": 1}, {"from": "Marie-Therese Purcell", "to": "Eilisha Purcell", "width": 1}, {"from": "Marie-Therese Purcell", "to": "Claudia Purcell", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
